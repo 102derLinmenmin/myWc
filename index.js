@@ -12,7 +12,8 @@ let lastCommandIdx = 2
 
 handlers['-s'] = recurseFolder
 
-/* 对命令行输入进行操作
+/* 
+ * 对命令行输入进行操作
  * 将指令压入指令集 commands
  * 将可能存在的通配符匹配的文件压入所匹配的文件栈 files
  */
@@ -40,7 +41,24 @@ const readCommandLines = (async () => {
 	}
 })()
 
-/* 指令未有输入错误时可进行指令操作
+/* 
+ * 验证 -s 是否带基础指令
+ */
+const dealWithFloder = (commands) => {
+	if (!commands || commands.length === 1) {
+		console.log('请至少输入一个除 -s 之外的基础指令')
+		return false
+	}
+	commands = commands.filter((val) => {
+		return val !== '-s'
+	})
+	files.forEach((fileName) => {
+		recurseFolder(fileName, commands)
+	})
+}
+
+/* 
+ * 指令未有输入错误时可进行指令操作
  * 执行指令与 data 所匹配的命令 
  * 如果是对文件夹的操作则进行文件夹递归操作 recurseFolder
  */
@@ -48,12 +66,7 @@ if (!breakError) {
 	commandLine.splice(0, lastCommandIdx + 1)
 	files = commandLine
 	if (commands.indexOf('-s') > -1) {
-		commands = commands.filter((val) => {
-			return val !== '-s'
-		})
-		files.forEach((fileName) => {
-			recurseFolder(fileName, commands)
-		})
+		return dealWithFloder(commands)
 	} else {
 		commands.forEach((command) => {
 			files.forEach((fileName) => {

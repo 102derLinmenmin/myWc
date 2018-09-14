@@ -53,8 +53,29 @@ npm link      // 配置自定义指令的命令
 ## 代码运行测试
 
 在 `git bash` 中运行以下命令，`file` 可以相应替换成测试文件
+
+有三个基础指令，分别是 `-c`，`-w`，`-l`
 ```bash
 mywc -c file  //返回文件 file.c 的字符数
 mywc -w file  //返回文件 file.c 的词的
 mywc -l file  //返回文件 file.c 的行数
+```
+
+基础指令也可以混合使用，eg：
+`mywc -l -c file`
+
+可以使用 `-s` 指令对文件夹进行递归操作，`-s` 必须配合上述基础指令使用，eg：
+`mywc -s -c folder`  
+
+测试文件支持正则表达式，eg：
+`mywc -l -c folder/*.txt`
+
+由于 `*.txt` 也是具体到某个文件，所以不支持 `-s` 这种对文件夹进行递归操作的指令
+
+对于错误情况也有错误提示，如
+
+```bash
+mywc -s -c -l test/*.txt
+如果使用 -s 指令请选择一个文件夹
+正则表达式不需要使用 -s 操作
 ```

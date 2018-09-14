@@ -15,7 +15,7 @@ module.exports = (filePath, commands) => {
           //遍历读取到的文件列表
           files.forEach((filename) => {
             //获取当前文件的绝对路径
-            const filedir = path.join(filePath, filename);
+            const filedir = path.join(filePath, filename)
             //根据文件路径获取文件信息，返回一个fs.Stats对象
             fs.stat(filedir, (error, stats) => {
               if (error) {
